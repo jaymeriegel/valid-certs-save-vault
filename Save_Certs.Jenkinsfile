@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+      text name: 'DOMAIN', defaultValue: 'dimed.com.br', description: 'Domain to update certs'
+    }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
             agent {
