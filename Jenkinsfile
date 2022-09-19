@@ -12,7 +12,6 @@ pipeline {
     stages {
         stage('Valid CA with a Private-Key') {
             steps {
-		cat Dockerfile
                 script {
                     writeFile file: 'ca', text: params.CA_BUNDLE
                     writeFile file: 'key', text: params.KEY
