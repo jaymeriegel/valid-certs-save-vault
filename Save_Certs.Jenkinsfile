@@ -29,8 +29,8 @@ pipeline {
         stage('Provision') {
             steps {
                 script {
+                        print PRIVATE_KEY
                         sh """
-                        cat ca
                         ansible --version
                         """
                 }
