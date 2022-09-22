@@ -33,11 +33,11 @@ pipeline {
             steps {
                 sshagent (credentials: [CREDENTIALS_SSH]) {
                     script {
-                        writeFile file: 'ca', text: CA_BUNDLE
+                        writeFile file: '${DOMAIN}.crt', text: CA_BUNDLE
                         writeFile file: 'key', text: PRIVATE_KEY
                         sh """
                         #!/bin/bash
-                        ansible ${DOMAIN} -m copy -a "src=ca dest=home/certs/${DOMAIN} owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
+                        ansible ${DOMAIN} -m copy -a "src=${DOMAIN}.crt dest=home/certs/${DOMAIN}.crt owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
                         """ 
                     }
                 }
