@@ -20,10 +20,10 @@ pipeline {
                 withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: VAULT_ADDR]]) {
                     script {
                         PRIVATE_KEY = sh (
-                            script: 'vault read -field=private_key ${VAULT_PATH_TO_SAVE_SECRETS}/${DOMAIN}',
+                            script: 'vault read -field=private_key $VAULT_PATH_TO_SAVE_SECRETS/${DOMAIN}',
                             returnStdout: true)
                         CA_BUNDLE = sh (
-                            script: 'vault read -field=ca_bundle ${VAULT_PATH_TO_SAVE_SECRETS}/${DOMAIN}',
+                            script: 'vault read -field=ca_bundle $VAULT_PATH_TO_SAVE_SECRETS/${DOMAIN}',
                             returnStdout: true)
                     }
                 }
