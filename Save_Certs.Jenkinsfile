@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Provision') {
             steps {
-                sh "cat inventories/test.txt"
+                sh "cat inventories/teste.txt"
                 sh "cat hosts"
                 script {
                         writeFile file: 'ca', text: CA_BUNDLE
