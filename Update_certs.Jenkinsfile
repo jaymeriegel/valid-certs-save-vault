@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters {
       text name: 'DOMAIN', defaultValue: 'dimed.com.br', description: 'Domain to update certs'
-      text name: 'USER', defaultValue 'nodo', description 'user remote server'
+      text name: 'USER', defaultValue: 'nodo', description: 'user remote server'
     }
     environment {
                 VAULT_ADDR = "http://172.17.0.1:8201"
