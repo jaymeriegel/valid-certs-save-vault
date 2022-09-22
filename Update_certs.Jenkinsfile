@@ -3,6 +3,9 @@ pipeline {
     parameters {
       text name: 'DOMAIN', defaultValue: 'dimed.com.br', description: 'Domain to update certs'
     }
+    environment {
+                VAULT_ADDR = "http://172.17.0.1:8201"
+    }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
             agent {
@@ -10,11 +13,8 @@ pipeline {
                     image 'jaymeriegel/vault-openssl-jq:v1'
                 }
             }
-            environment {
-                VAULT_ADDR = "http://172.17.0.1:8201"
-            }
             steps {
-                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: '$VAULT_ADDR']]) {
+                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: '${VAULT_ADDR}']]) {
                     script {
                         PRIVATE_KEY = sh (
                             script: 'vault read -field=private_key secrets/creds/certificate_ca/${DOMAIN}',
