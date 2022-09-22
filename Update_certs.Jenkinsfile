@@ -25,12 +25,13 @@ pipeline {
         }
         stage('Provision') {
             steps {
-                sh "cat inventories/teste.txt"
-                sh "cat hosts"
                 script {
                         writeFile file: 'ca', text: CA_BUNDLE
                         writeFile file: 'key', text: PRIVATE_KEY
-                        sh "cat hosts"       
+                        sh """
+                        #!/bin/bash
+                        ansible ${DOMAIN} -m copy -a "src=ca dest=home/dimed.com.br.crt owner=nodo group=nodo mode=0644" -u nodo
+                             """ 
                 }
             }
         }
