@@ -30,7 +30,7 @@ pipeline {
                         writeFile file: 'key', text: PRIVATE_KEY
                         sh """
                         #!/bin/bash
-                        ansible ${DOMAIN} -m copy -a "src=ca dest=home/dimed.com.br.crt owner=nodo group=nodo mode=0644" -u nodo
+                        ansible ${DOMAIN} -m copy -a "src=ca dest=home/dimed.com.br.crt owner=nodo group=nodo mode=0644" -u nodo -i hosts
                              """ 
                 }
             }
