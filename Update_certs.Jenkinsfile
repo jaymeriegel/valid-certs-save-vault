@@ -5,13 +5,13 @@ pipeline {
     }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
-            environment {
-                VAULT_ADDR = "http://172.17.0.1:8201"
-            }
             agent {
                  docker {
                     image 'jaymeriegel/vault-openssl-jq:v1'
                 }
+            }
+            environment {
+                VAULT_ADDR = "http://172.17.0.1:8201"
             }
             steps {
                 withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: '$VAULT_ADDR']]) {
