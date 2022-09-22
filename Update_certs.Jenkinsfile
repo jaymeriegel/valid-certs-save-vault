@@ -5,13 +5,16 @@ pipeline {
     }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
+            environment {
+                VAULT_ADDR = "http://172.17.0.1:8201"
+            }
             agent {
                  docker {
                     image 'jaymeriegel/vault-openssl-jq:v1'
                 }
             }
             steps {
-                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: 'http://172.17.0.1:8201']]) {
+                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: '$VAULT_ADDR']]) {
                     script {
                         PRIVATE_KEY = sh (
                             script: 'vault read -field=private_key secrets/creds/certificate_ca/${DOMAIN}',
@@ -31,8 +34,8 @@ pipeline {
                         writeFile file: 'key', text: PRIVATE_KEY
                         sh """
                         #!/bin/bash
-                        ansible ${DOMAIN} -m copy -a "src=ca dest=home owner=nodo group=nodo mode=0644" -u nodo -i hosts
-                            """ 
+                        ansible ${DOMAIN} -m copy -a "src=ca dest=home/certs/teste.txt owner=nodo group=nodo mode=0644" -u nodo -i hosts
+                        """ 
                     }
                 }
             }
