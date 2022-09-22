@@ -19,20 +19,17 @@ pipeline {
                         CA_BUNDLE = sh (
                             script: 'vault read -field=ca_bundle secrets/creds/certificate_ca/${DOMAIN}',
                             returnStdout: true)
-                        
-                        writeFile file: 'ca', text: CA_BUNDLE
-                        writeFile file: 'key', text: PRIVATE_KEY
                     }
                 }
             }
         }
         stage('Provision') {
             steps {
+                cat hosts
                 script {
-                        print PRIVATE_KEY
-                        sh """
-                        ansible --version
-                        """
+                        writeFile file: 'ca', text: CA_BUNDLE
+                        writeFile file: 'key', text: PRIVATE_KEY
+                        sh "cat hosts"       
                 }
             }
         }
