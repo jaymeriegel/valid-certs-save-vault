@@ -6,7 +6,6 @@ pipeline {
     }
     environment {
                 VAULT_ADDR = "http://172.17.0.1:8201"
-                VAULT_PATH_TO_GET_SECRETS = "secrets/creds/certificate_ca"
                 CREDENTIALS_SSH = "jenkins"
     }
     stages {
@@ -19,6 +18,7 @@ pipeline {
             steps {
                 withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: VAULT_ADDR]]) {
                     script {
+                        VAULT_PATH_TO_GET_SECRETS = "secrets/creds/certificate_ca"
                         PRIVATE_KEY = sh (
                             script: 'vault read -field=private_key ${VAULT_PATH_TO_SAVE_SECRETS}/${DOMAIN}',
                             returnStdout: true)
