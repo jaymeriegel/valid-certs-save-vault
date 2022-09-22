@@ -37,7 +37,7 @@ pipeline {
                         writeFile file: 'key', text: PRIVATE_KEY
                         sh """
                         #!/bin/bash
-                        ansible ${DOMAIN} -m copy -a "src=${DOMAIN}.crt dest=home/certs/${DOMAIN}.crt owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
+                        ansible ${DOMAIN} -m copy -a "src=${DOMAIN}.crt dest=home/certs owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
                         """ 
                     }
                 }
