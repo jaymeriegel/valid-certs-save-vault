@@ -39,7 +39,7 @@ pipeline {
                         sh """
                         #!/bin/bash
                         ansible ${DOMAIN} -m copy -a "src=ca dest=${CERT_DEST_PATH}/${DOMAIN}.crt owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
-                        ansible ${DOMAIN} -m copy -a "src=ca dest=${CERT_DEST_PATH}/CA-BUNDLE.key owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
+                        ansible ${DOMAIN} -m copy -a "src=key dest=${CERT_DEST_PATH}/CA-BUNDLE.key owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
                         """ 
                     }
                 }
