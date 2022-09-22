@@ -8,6 +8,7 @@ pipeline {
                 VAULT_ADDR = "http://172.17.0.1:8201"
                 CREDENTIALS_SSH = "jenkins"
                 VAULT_PATH_TO_GET_SECRETS = "secrets/creds/certificate_ca"
+                CERT_DEST_PATH = "/home/nodo/certs/";
     }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
@@ -37,7 +38,8 @@ pipeline {
                         writeFile file: 'key', text: PRIVATE_KEY
                         sh """
                         #!/bin/bash
-                        ansible ${DOMAIN} -m copy -a "src=ca dest=/home/nodo/certs/${DOMAIN}.crt owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
+                        ansible ${DOMAIN} -m copy -a "src=ca dest=${CERT_DEST_PATH}/${DOMAIN}.crt owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
+                        ansible ${DOMAIN} -m copy -a "src=ca dest=${CERT_DEST_PATH}/CA-BUNDLE.key owner=${USER} group=${USER} mode=0644" -u ${USER} -i hosts
                         """ 
                     }
                 }
