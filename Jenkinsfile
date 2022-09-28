@@ -9,6 +9,11 @@ pipeline {
       text name: 'CA_BUNDLE', defaultValue: '', description: 'SSL Certificate in x509 format'
       text name: 'KEY', defaultValue: '', description: 'KEY in RSA format'
     }
+    environment {
+                VAULT_ADDR = "'http://172.17.0.1:8201'"
+                CREDENTIALS_ID = "vault-jenkins-role"
+                PATH_TO_SAVE_SECRETS = "secrets/creds/certificate_ca"
+    }
     stages {
         stage('Valid CA with a Private-Key') {
             steps {
@@ -35,11 +40,11 @@ pipeline {
                             jq -n --arg a "\$(<ca)" '{ca_bundle: \$a}' > ca.json
                             jq -n --arg b "\$(<key)" '{private_key: \$b}' > key.json """
                 
-                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: 'vault-jenkins-role', tokenVariable: 'VAULT_TOKEN', vaultAddr: 'http://172.17.0.1:8201']]) {
+                withCredentials([[$class: 'VaultTokenCredentialBinding', addrVariable: 'VAULT_ADDR', credentialsId: CREDENTIALS_ID, tokenVariable: 'VAULT_TOKEN', vaultAddr: VAULT_ADDR]]) {
                     script {
                         sh """
                         #!/bin/bash
-                        vault kv put secrets/creds/certificate_ca/${DOMAIN} @ca.json @key.json
+                        vault kv put ${PATH_TO_SAVE_SECRETS}/${DOMAIN} @ca.json @key.json
                              """
                     }
                 }
