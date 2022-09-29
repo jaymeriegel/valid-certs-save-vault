@@ -10,7 +10,7 @@ pipeline {
       text name: 'KEY', defaultValue: '', description: 'KEY in RSA format'
     }
     environment {
-                VAULT_ADDR = "'http://172.17.0.1:8201'"
+                VAULT_ADDR = "http://172.17.0.1:8201"
                 CREDENTIALS_ID = "vault-jenkins-role"
                 PATH_TO_SAVE_SECRETS = "secrets/creds/certificate_ca"
                 PROVISION_CERTS_ON_HOSTS_BY_DOMAIN_JOB = "save-certs"
