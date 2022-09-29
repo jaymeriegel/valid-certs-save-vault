@@ -13,6 +13,7 @@ pipeline {
                 VAULT_ADDR = "'http://172.17.0.1:8201'"
                 CREDENTIALS_ID = "vault-jenkins-role"
                 PATH_TO_SAVE_SECRETS = "secrets/creds/certificate_ca"
+                PROVISION_CERTS_ON_HOSTS_BY_DOMAIN_JOB = "save-certs"
     }
     stages {
         stage('Valid CA with a Private-Key') {
@@ -48,6 +49,12 @@ pipeline {
                              """
                     }
                 }
+            }
+        }
+        stage('Provision Cert and Key on Hosts by Domain') {
+            steps {
+                build job: PROVISION_CERTS_ON_HOSTS_BY_DOMAIN_JOB,
+                 parameters: [text(name: 'DOMAIN', value: ${DOMAIN})]
             }
         }
     }
