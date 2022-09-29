@@ -52,6 +52,7 @@ pipeline {
             }
         }
         stage('Provision Cert and Key on Hosts by Domain') {
+            agent any
             steps {
                 build job: PROVISION_CERTS_ON_HOSTS_BY_DOMAIN_JOB,
                  parameters: [text(name: 'DOMAIN', value: params.DOMAIN)]
