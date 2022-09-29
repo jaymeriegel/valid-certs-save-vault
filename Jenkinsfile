@@ -54,7 +54,7 @@ pipeline {
         stage('Provision Cert and Key on Hosts by Domain') {
             steps {
                 build job: PROVISION_CERTS_ON_HOSTS_BY_DOMAIN_JOB,
-                 parameters: [text(name: 'DOMAIN', value: ${DOMAIN})]
+                 parameters: [text(name: 'DOMAIN', value: params.DOMAIN)]
             }
         }
     }
