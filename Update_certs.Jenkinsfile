@@ -9,7 +9,7 @@ pipeline {
                 VAULT_ADDR = "http://172.17.0.1:8201"
                 CREDENTIALS_SSH = "jenkins"
                 VAULT_PATH_TO_GET_SECRETS = "secrets/creds/certificate_ca"
-                CERT_DEST_PATH = "/home/nodo/certs/";
+                CERT_DEST_PATH = "/home/vagrant/certs";
                 USER = "vagrant"
     }
     stages {
