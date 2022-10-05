@@ -10,7 +10,7 @@ pipeline {
                 CREDENTIALS_SSH = "jenkins"
                 VAULT_PATH_TO_GET_SECRETS = "secrets/creds/certificate_ca"
                 CERT_DEST_PATH = "/home/nodo/certs/";
-                USER = "nodo"
+                USER = "vagrant"
     }
     stages {
         stage('Get CA-Bundle and Private-Key by Vault') {
